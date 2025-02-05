@@ -1,26 +1,35 @@
 #!/bin/bash
 
-# Install Hyperspace
-curl -sSL https://download.hyper.space/api/install | bash
+# Install Hyper Space Node
+curl https://download.hyper.space/api/install | bash
 
+# Load the updated environment
 source /root/.bashrc
 
-# Run aios-cli start in the background
-aios-cli start &
+# Start the node
+aio-cli start
 
-# Wait a bit for the node to start (adjust as needed) - important!
-sleep 10 # Increased wait time
+# Download the required model
+aio-cli models add hf:TheBloke/phi-2-GGUF:phi-2.Q4_K_M.gguf
 
-# Run other aios-cli commands (no screen needed)
-aios-cli models add hf:TheBloke/phi-2-GGUF:phi-2.Q4_K_M.gguf
-aios-cli hive connect
-aios-cli hive select-tier 5
+# Import private key (Ensure my.pem exists beforehand)
+echo "Make sure you have created my.pem file with your private key."
+aio-cli hive import-keys ./my.pem
 
-# Optional Tier 3 upgrade (comment out if not needed)
-# aios-cli hive select-tier 3 # Commented out by default
+# Set imported keys as preferred for this session
+aio-cli hive login
 
-aios-cli hive points
+# Ensure the model is registered
+aio-cli hive connect
 
-echo "Hyperspace node setup initiated in the background."
-echo "To check the status of the node, use the appropriate aios-cli commands or check logs."
-echo "You can check the background processes using: ps aux | grep aios-cli" # Helpful command
+# Select Tier 5
+aio-cli hive select-tier 5
+
+# Optionally, downgrade to Tier 3 for 2x points
+aio-cli hive select-tier 3
+
+# Check current multiplier and points
+aio-cli hive points
+
+# Completion message
+echo "Node setup completed successfully!"
