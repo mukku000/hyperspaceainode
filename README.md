@@ -12,7 +12,7 @@ This repository provides a script to easily set up a Hyperspace AI node.
 
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/yourusername/hyperspaceainode.git](https://github.com/yourusername/hyperspaceainode.git)
+   git clone (https://github.com/mukku000/hyperspaceainode.git)
 
  * Navigate to the directory:
    cd hyperspaceainode
