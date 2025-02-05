@@ -5,28 +5,22 @@ curl -sSL https://download.hyper.space/api/install | bash
 
 source /root/.bashrc
 
-# Check if screen is installed. If not, install it.
-if ! command -v screen &>/dev/null; then
-  echo "Installing screen..."
-  apt-get update && apt-get install -y screen  # Or yum install screen, depending on your distro
-fi
+# Run aios-cli start in the background
+aios-cli start &
 
-# Create and detach a screen session
-screen -dmS hyperspace aios-cli start
+# Wait a bit for the node to start (adjust as needed) - important!
+sleep 10 # Increased wait time
 
-# Wait a bit to ensure the screen session starts (adjust as needed)
-sleep 5
-
-# Run commands in the detached screen session
-screen -S hyperspace -X stuff "aios-cli models add hf:TheBloke/phi-2-GGUF:phi-2.Q4_K_M.gguf$(printf '\r')"
-screen -S hyperspace -X stuff "aios-cli hive connect$(printf '\r')"
-screen -S hyperspace -X stuff "aios-cli hive select-tier 5$(printf '\r')"
+# Run other aios-cli commands (no screen needed)
+aios-cli models add hf:TheBloke/phi-2-GGUF:phi-2.Q4_K_M.gguf
+aios-cli hive connect
+aios-cli hive select-tier 5
 
 # Optional Tier 3 upgrade (comment out if not needed)
-# screen -S hyperspace -X stuff "aios-cli hive select-tier 3$(printf '\r')" # Commented out by default
+# aios-cli hive select-tier 3 # Commented out by default
 
-screen -S hyperspace -X stuff "aios-cli hive points$(printf '\r')"
+aios-cli hive points
 
-echo "Hyperspace node setup initiated in a detached screen session named 'hyperspace'."
-echo "You can reattach to the screen session using: screen -r hyperspace"
-echo "To view logs: screen -ls and then screen -r <session_id>"
+echo "Hyperspace node setup initiated in the background."
+echo "To check the status of the node, use the appropriate aios-cli commands or check logs."
+echo "You can check the background processes using: ps aux | grep aios-cli" # Helpful command
