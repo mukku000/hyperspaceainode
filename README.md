@@ -24,3 +24,4 @@ Private Key Security (CRITICAL)
 This script will generate a new private key for your node locally. This key will be stored in [explain where it's stored - e.g., a file named private_key.txt in the current directory]. It is absolutely essential that you keep this key secure. Do not share it with anyone. If you lose this key, you will lose access to your node and any associated funds.
 Random Commit 1
 Random Commit 2
+Random Commit 3
